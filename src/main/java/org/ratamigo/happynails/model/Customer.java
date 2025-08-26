@@ -26,6 +26,7 @@ public class Customer {
 
     private String name;
     private String email;
+    private String phone;
     private int previousServiceId;
 
     @OneToMany(mappedBy="customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
