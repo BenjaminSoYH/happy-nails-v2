@@ -9,5 +9,4 @@ public class HappyNailsApplication {
     public static void main(String[] args) {
         SpringApplication.run(HappyNailsApplication.class, args);
     }
-
 }
