@@ -1,12 +1,14 @@
 package org.ratamigo.happynails.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.ratamigo.happynails.appointments.model.Appointment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,11 +22,17 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
 
     private String name;
     private String email;
     private int previousServiceId;
+
+    @OneToMany(mappedBy="customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference(value="customer-appointments")
+    private List<Appointment> appointments = new ArrayList<>();
+
+
     //Then when you need the full service details, you can
 //  Join with the ServiceType table in queries
     
