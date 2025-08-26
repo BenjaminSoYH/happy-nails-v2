@@ -34,4 +34,16 @@ public class GlobalExceptionHander {
 
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<ErrorObject> handleCustomerNotFound(CustomerNotFoundException exception,
+                                                              WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+        
+                                                                errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
+        errorObject.setMessage(exception.getMessage());
+        errorObject.setTimeStamp(new Date());
+
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
+    }
 }

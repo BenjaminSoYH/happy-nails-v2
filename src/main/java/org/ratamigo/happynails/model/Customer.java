@@ -20,10 +20,11 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
 
     private String name;
     private String email;
+    private String phone;
     private int previousServiceId;
     //Then when you need the full service details, you can
 //  Join with the ServiceType table in queries
