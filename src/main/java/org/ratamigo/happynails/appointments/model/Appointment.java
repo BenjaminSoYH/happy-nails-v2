@@ -1,4 +1,4 @@
-package org.ratamigo.happynails.model;
+package org.ratamigo.happynails.appointments.model;
 
 //appointmentID (PK)
 // userID (FK) - (cascade delete null)
@@ -9,10 +9,15 @@ package org.ratamigo.happynails.model;
 
 //TODO: figure out what actually doesn't need a lazy fetch type. is there anything that should be 
 // completely loaded immediately once one entity is accessed?
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.ratamigo.happynails.model.Customer;
+import org.ratamigo.happynails.model.NailTech;
+import org.ratamigo.happynails.model.ServiceType;
+import org.ratamigo.happynails.model.TimeSlot;
 
 @Entity
 @Data
@@ -22,23 +27,33 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Appointment ID
     private int id;
 
     @Embedded
+    // Time slot - embedded because we don't need another model table
     private TimeSlot timeSlot;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "customer-appointments") // Add managed reference
+    // One appointment is assigned to only one customer
+    // But one customer can have many appointments
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tech_id")
+    @JsonBackReference(value = "tech-appointments")
+    // One appointment is assigned to only one nailTech
+    // But one nail techs can be assigned to many appointments
     private NailTech nailTech;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
+    @JsonBackReference(value = "service-appointments")
     private ServiceType service;
 
+    // Appointment status
     public enum ApptStatus {
         PENDING,        // Appointment requested but not yet confirmed
         CONFIRMED,      // Approved and scheduled
