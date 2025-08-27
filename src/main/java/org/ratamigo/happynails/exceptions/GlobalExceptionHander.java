@@ -40,8 +40,20 @@ public class GlobalExceptionHander {
                                                               WebRequest request) {
         ErrorObject errorObject = new ErrorObject();
         
-                                                                errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
+        errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
         errorObject.setMessage(exception.getMessage());
+        errorObject.setTimeStamp(new Date());
+
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AvailabilityNotFoundException.class)
+    public ResponseEntity<ErrorObject> handleAvailabilityNotFound(AvailabilityNotFoundException ex,
+                                                                  WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+
+        errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
+        errorObject.setMessage(ex.getMessage());
         errorObject.setTimeStamp(new Date());
 
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
