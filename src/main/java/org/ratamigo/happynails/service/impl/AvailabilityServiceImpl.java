@@ -51,32 +51,32 @@ public class AvailabilityServiceImpl implements AvailabilityService{
         return availability;
     }
 
-	@Override
-	public AvailabilityDto createAvailability(AvailabilityDto availabilityDto) {
+    @Override
+    public AvailabilityDto createAvailability(AvailabilityDto availabilityDto) {
         NailTech nailTech = techRepo.findById(availabilityDto.getNailTechId()).orElseThrow(()
                 -> new NailTechNotFoundException("Corresponding nail tech could not be found"));
 		Availability availability = mapToEntity(availabilityDto, nailTech);
         Availability newAvailability = availabilityRepo.save(availability);
         AvailabilityDto availabilityResponse = mapToDto(newAvailability);
-        return availabilityResponse;
-	}
+    return availabilityResponse;
+    }
 
-	@Override
-	public List<AvailabilityDto> getAllAvailabilities() {
-		List<Availability> availabilities = availabilityRepo.findAll();
+    @Override
+    public List<AvailabilityDto> getAllAvailabilities() {
+	List<Availability> availabilities = availabilityRepo.findAll();
         return availabilities.stream().map(a -> mapToDto(a)).collect(Collectors.toList());
-	}
+    }
 
-	@Override
-	public AvailabilityDto getAvailabilityById(int id) {
-		Availability availability = availabilityRepo.findById(id).orElseThrow(()
+    @Override
+    public AvailabilityDto getAvailabilityById(int id) {
+	Availability availability = availabilityRepo.findById(id).orElseThrow(()
                 -> new AvailabilityNotFoundException("Availability could not be found"));
         return mapToDto(availability);
-	}
+    }
 
-	@Override
-	public AvailabilityDto updateAvailability(AvailabilityDto availabilityDto, int id) {
-		Availability availability = availabilityRepo.findById(id).orElseThrow(()
+    @Override
+    public AvailabilityDto updateAvailability(AvailabilityDto availabilityDto, int id) {
+	Availability availability = availabilityRepo.findById(id).orElseThrow(()
                 -> new AvailabilityNotFoundException("Availability could not be updated"));
         NailTech nailTech = techRepo.findById(availabilityDto.getNailTechId()).orElseThrow(()
                 -> new NailTechNotFoundException("Corresponding nail tech could not be found"));;
@@ -85,18 +85,21 @@ public class AvailabilityServiceImpl implements AvailabilityService{
         availability.setNailTech(nailTech);
         Availability updatedAvailability = availabilityRepo.save(availability);
         return mapToDto(updatedAvailability);
-	}
+    }
 
-	@Override
-	public void deleteAvailability(int id) {
-		Availability availability = availabilityRepo.findById(id).orElseThrow(()
+    @Override
+    public void deleteAvailability(int id) {
+	Availability availability = availabilityRepo.findById(id).orElseThrow(()
                 -> new AvailabilityNotFoundException("Availability could not be found"));
         availabilityRepo.delete(availability);
-	}
+    }
 
-	@Override
-	public List<AvailabilityDto> getAvailabilitiesByNailTechId(int nailTechId) {
+    @Override
+    public List<AvailabilityDto> getAvailabilitiesByNailTechId(int nailTechId) {
         List<Availability> availabilities = availabilityRepo.findByNailTechId(nailTechId);
+        if (availabilities.isEmpty()) {
+                throw new AvailabilityNotFoundException("No availabilities found for this nail tech");
+        }
         return availabilities.stream().map(availability -> mapToDto(availability)).collect(Collectors.toList());
     }
 		
