@@ -10,4 +10,5 @@ public interface AvailabilityService {
     AvailabilityDto getAvailabilityById(int id);
     AvailabilityDto updateAvailability(AvailabilityDto availabilityDto, int id);
     void deleteAvailability(int id);
+    List<AvailabilityDto> getAvailabilitiesByNailTechId(int nailTechId);
 }

@@ -62,4 +62,9 @@ public class AvailabilityController {
         return new ResponseEntity<>("Availability deleted", HttpStatus.OK);
     }
     
+    @GetMapping("nailtechs/{nailTechId}/availabilities")
+    public List<AvailabilityDto> getAvailabilitiesByNailTechId(@PathVariable(value = "nailTechId")
+                                                               int nailTechId) {
+        return availabilityService.getAvailabilitiesByNailTechId(nailTechId);
+    }
 }
