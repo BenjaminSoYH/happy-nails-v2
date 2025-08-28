@@ -93,4 +93,11 @@ public class AvailabilityServiceImpl implements AvailabilityService{
                 -> new AvailabilityNotFoundException("Availability could not be found"));
         availabilityRepo.delete(availability);
 	}
+
+	@Override
+	public List<AvailabilityDto> getAvailabilitiesByNailTechId(int nailTechId) {
+        List<Availability> availabilities = availabilityRepo.findByNailTechId(nailTechId);
+        return availabilities.stream().map(availability -> mapToDto(availability)).collect(Collectors.toList());
+    }
+		
 }
