@@ -15,9 +15,7 @@ public interface AppointmentService {
     AppointmentDTO updateAppointment(int id, AppointmentDTO appointmentDTO);
     // Delete by id
     void deleteAppointmentById(int id);
-
-    // TODO: Implement delete appointments by customer name
+    // Delete appointment by customer name
     void deleteAppointmentsByCustomerName(String name);
-
     List<AppointmentDTO> getAppointmentsByCustomerId(int id);
 }

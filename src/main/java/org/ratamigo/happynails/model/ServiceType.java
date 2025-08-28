@@ -1,13 +1,15 @@
 package org.ratamigo.happynails.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.ratamigo.happynails.appointments.model.Appointment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +23,8 @@ public class ServiceType {
     private String name;
     private String description;
     private int duration;
+
+    @OneToMany(mappedBy="service", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference(value="service-appointments")
+    private List<Appointment> appointments = new ArrayList<>();
 }

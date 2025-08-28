@@ -1,4 +1,5 @@
 package org.ratamigo.happynails.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class TimeSlot {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
+    @JsonIgnore
     public Duration getDuration() {
         return Duration.between(startTime, endTime);
     }

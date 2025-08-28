@@ -11,8 +11,18 @@ import org.ratamigo.happynails.model.TimeSlot;
 public class AppointmentDTO {
     private int id;
     private TimeSlot timeSlot;
-    private Customer customer;
-    private NailTech tech;
-    private ServiceType service;
+
+    // Customer information
+    private int customer_id;
+    private String customer_name;
+
+    // Tech information
+    private int tech_id;
+    private String tech_name;
+
+    // Service information
+    private int service_id;
+    private String service_name;
+
     private Appointment.ApptStatus ApptStatus;
 }

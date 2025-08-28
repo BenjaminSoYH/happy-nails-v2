@@ -31,21 +31,16 @@ public class Appointment {
     private int id;
 
     @Embedded
-    // Time slot - embedded because we don't need another model table
     private TimeSlot timeSlot;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonBackReference(value = "customer-appointments") // Add managed reference
-    // One appointment is assigned to only one customer
-    // But one customer can have many appointments
+    @JsonBackReference(value = "customer-appointments")
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tech_id")
+    @JoinColumn(name = "nailTech_id")
     @JsonBackReference(value = "tech-appointments")
-    // One appointment is assigned to only one nailTech
-    // But one nail techs can be assigned to many appointments
     private NailTech nailTech;
 
     @ManyToOne(fetch = FetchType.LAZY)
