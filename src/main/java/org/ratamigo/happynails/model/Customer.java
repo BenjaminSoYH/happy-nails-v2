@@ -33,8 +33,4 @@ public class Customer {
     @JsonManagedReference(value="customer-appointments")
     private List<Appointment> appointments = new ArrayList<>();
 
-
-    //Then when you need the full service details, you can
-//  Join with the ServiceType table in queries
-    
 }

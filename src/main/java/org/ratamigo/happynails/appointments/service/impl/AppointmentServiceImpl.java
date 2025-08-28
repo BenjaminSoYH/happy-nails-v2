@@ -4,6 +4,9 @@ import org.ratamigo.happynails.appointments.dto.AppointmentDTO;
 import org.ratamigo.happynails.appointments.model.Appointment;
 import org.ratamigo.happynails.appointments.repository.AppointmentRepository;
 import org.ratamigo.happynails.appointments.service.AppointmentService;
+import org.ratamigo.happynails.repository.CustomerRepository;
+import org.ratamigo.happynails.repository.NailTechRepository;
+import org.ratamigo.happynails.repository.ServiceTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +15,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
-    private AppointmentRepository appointmentRepository;
-
+    private final AppointmentRepository appointmentRepository;
+    private CustomerRepository customerRepository;
+    private NailTechRepository nailTechRepository;
+    private ServiceTypeRepository serviceTypeRepository;
 
     // Implement mappers
     public AppointmentDTO mapToDto(Appointment appointment){
@@ -21,9 +26,19 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentDTO dto = new AppointmentDTO();
         dto.setId(appointment.getId());
         dto.setTimeSlot(appointment.getTimeSlot());
-        dto.setCustomer(appointment.getCustomer());
-        dto.setTech(appointment.getNailTech());
-        dto.setService(appointment.getService());
+
+        // Customer information
+        dto.setCustomer_id(appointment.getCustomer().getId());
+        dto.setCustomer_name(appointment.getCustomer().getName());
+
+        // Nail tech information
+        dto.setTech_id(appointment.getNailTech().getId());
+        dto.setTech_name(appointment.getNailTech().getName());
+
+        // Service information
+        dto.setService_id(appointment.getService().getId());
+        dto.setService_name(appointment.getService().getName());
+
         dto.setApptStatus(appointment.getStatus());
         return dto;
     }
@@ -32,16 +47,22 @@ public class AppointmentServiceImpl implements AppointmentService {
         // Create new DTO
         Appointment appointment = new Appointment();
         appointment.setTimeSlot(dto.getTimeSlot());
-        appointment.setCustomer(dto.getCustomer());
-        appointment.setNailTech(dto.getTech());
-        appointment.setService(dto.getService());
+        appointment.setCustomer(customerRepository.findById(dto.getCustomer_id()).orElseThrow());
+        appointment.setNailTech(nailTechRepository.findById(dto.getTech_id()).orElseThrow());
+        appointment.setService(serviceTypeRepository.findById(dto.getService_id()).orElseThrow());
         appointment.setStatus(dto.getApptStatus());
         return appointment;
     }
 
     @Autowired
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository){
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository,
+                                  CustomerRepository customerRepository,
+                                  NailTechRepository nailTechRepository,
+                                  ServiceTypeRepository serviceTypeRepository){
         this.appointmentRepository = appointmentRepository;
+        this.customerRepository = customerRepository;
+        this.nailTechRepository = nailTechRepository;
+        this.serviceTypeRepository = serviceTypeRepository;
     }
 
 
@@ -68,9 +89,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentDTO updateAppointment(int id, AppointmentDTO dto) {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow();
         appointment.setTimeSlot(dto.getTimeSlot());
-        appointment.setCustomer(dto.getCustomer());
-        appointment.setNailTech(dto.getTech());
-        appointment.setService(dto.getService());
+        appointment.setCustomer(customerRepository.findById(dto.getCustomer_id()).orElseThrow());
+        appointment.setNailTech(nailTechRepository.findById(dto.getTech_id()).orElseThrow());
+        appointment.setService(serviceTypeRepository.findById(dto.getService_id()).orElseThrow());
         appointment.setStatus(dto.getApptStatus());
         Appointment saved = appointmentRepository.save(appointment);
         return mapToDto(saved);
