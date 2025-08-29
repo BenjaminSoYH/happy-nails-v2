@@ -1,7 +1,5 @@
 package org.ratamigo.happynails.service;
 
-import java.util.List;
-
 import org.ratamigo.happynails.dto.CustomerDto;
 import org.ratamigo.happynails.dto.CustomerGetAllResponse;
 
