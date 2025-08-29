@@ -1,8 +1,7 @@
 package org.ratamigo.happynails.controller;
 
-import java.util.List;
-
 import org.ratamigo.happynails.dto.CustomerDto;
+import org.ratamigo.happynails.dto.CustomerGetAllResponse;
 import org.ratamigo.happynails.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +29,11 @@ public class CustomerController {
     }
 
     @GetMapping("customers")
-    public ResponseEntity<List<CustomerDto>> getCustomers() {
-        return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
+    public ResponseEntity<CustomerGetAllResponse> getCustomers(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        return new ResponseEntity<>(customerService.getAllCustomers(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("customers/{id}")

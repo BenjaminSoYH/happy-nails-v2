@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ratamigo.happynails.dto.CustomerDto;
+import org.ratamigo.happynails.dto.CustomerGetAllResponse;
 import org.ratamigo.happynails.exceptions.CustomerNotFoundException;
 import org.ratamigo.happynails.model.Customer;
 import org.ratamigo.happynails.repository.CustomerRepository;
 import org.ratamigo.happynails.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,9 +55,21 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<CustomerDto> getAllCustomers() {
-		List<Customer> customers = customerRepo.findAll();
-        return customers.stream().map(c -> mapToDto(c)).collect(Collectors.toList());
+	public CustomerGetAllResponse getAllCustomers(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+		Page<Customer> customers = customerRepo.findAll(pageable);
+        List<Customer> listOfCustomers = customers.getContent();
+        List<CustomerDto> content = listOfCustomers.stream().map(
+                    c -> mapToDto(c)).collect(Collectors.toList());
+        CustomerGetAllResponse customerResponse = new CustomerGetAllResponse();
+        customerResponse.setContent(content);
+        customerResponse.setPageNo(customers.getNumber());
+        customerResponse.setPageSize(customers.getSize());
+        customerResponse.setTotalElements(customers.getTotalElements());
+        customerResponse.setTotalPages(customers.getTotalPages());
+        customerResponse.setLast(customers.isLast());
+
+        return customerResponse;
 	}
 
 	@Override

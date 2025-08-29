@@ -1,17 +1,36 @@
 package org.ratamigo.happynails.appointments.service.impl;
 
 import org.ratamigo.happynails.appointments.dto.AppointmentDTO;
+import org.ratamigo.happynails.appointments.dto.AppointmentGetAllResponse;
+import org.ratamigo.happynails.appointments.exceptions.AppointmentNotFoundException;
 import org.ratamigo.happynails.appointments.model.Appointment;
 import org.ratamigo.happynails.appointments.repository.AppointmentRepository;
 import org.ratamigo.happynails.appointments.service.AppointmentService;
+import org.ratamigo.happynails.exceptions.CustomerNotFoundException;
+import org.ratamigo.happynails.exceptions.NailTechNotFoundException;
+import org.ratamigo.happynails.exceptions.ServiceTypeNotFoundException;
+import org.ratamigo.happynails.model.Customer;
+import org.ratamigo.happynails.model.NailTech;
+import org.ratamigo.happynails.model.ServiceType;
 import org.ratamigo.happynails.repository.CustomerRepository;
 import org.ratamigo.happynails.repository.NailTechRepository;
 import org.ratamigo.happynails.repository.ServiceTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+
+// TODO: REFACTOR SO WHoLE BACKEND CODE LOOKS ORGANIZED (fit appointments with the rest of the entities)
+// ENSURE ALL HTTP CODES ARE CORRECT. WE ARE CONFUSING CREATED VS OK. ALSO PUT SHOULD BE OK.
+// CHECK HTTP CODES AGAIN EVERYTHING EVERYTHING 
+// add the jsonbackreference shi wherever needed everywhere!!!!!!!!
+// check over the relationships between entities (ex. get all availabilities for each nailtech, get 
+// all appointments for each customer)
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -67,14 +86,27 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
     @Override
-    public List<AppointmentDTO> getAppointments() {
-        List<Appointment> appointments = appointmentRepository.findAll();
-        return appointments.stream().map(a -> mapToDto(a)).collect(Collectors.toList());
+    public AppointmentGetAllResponse getAppointments(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Appointment> appointments = appointmentRepository.findAll(pageable);
+        List<Appointment> listOfAppointments = appointments.getContent();
+        List<AppointmentDTO> content = listOfAppointments.stream().map(
+                a -> mapToDto(a)).collect(Collectors.toList());
+        AppointmentGetAllResponse appointmentResponse = new AppointmentGetAllResponse();
+        appointmentResponse.setContent(content);
+        appointmentResponse.setPageNo(appointments.getNumber());
+        appointmentResponse.setPageSize(appointments.getSize());
+        appointmentResponse.setTotalElements(appointments.getTotalElements());
+        appointmentResponse.setTotalPages(appointments.getTotalPages());
+        appointmentResponse.setLast(appointments.isLast());
+
+        return appointmentResponse;
     }
 
     @Override
     public AppointmentDTO getAppointmentById(int id) {
-        Appointment appointment = appointmentRepository.findById(id).orElseThrow();
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow(()
+                    -> new AppointmentNotFoundException("Appointment could not be found"));
         return mapToDto(appointment);
     }
 
@@ -87,19 +119,52 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentDTO updateAppointment(int id, AppointmentDTO dto) {
-        Appointment appointment = appointmentRepository.findById(id).orElseThrow();
-        appointment.setTimeSlot(dto.getTimeSlot());
-        appointment.setCustomer(customerRepository.findById(dto.getCustomer_id()).orElseThrow());
-        appointment.setNailTech(nailTechRepository.findById(dto.getTech_id()).orElseThrow());
-        appointment.setService(serviceTypeRepository.findById(dto.getService_id()).orElseThrow());
-        appointment.setStatus(dto.getApptStatus());
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow(()
+                    -> new AppointmentNotFoundException("Appointment could not be updated"));
+        
+        // Update timeSlot if provided
+        if (dto.getTimeSlot() != null) {
+            appointment.setTimeSlot(dto.getTimeSlot());
+        }
+
+        // Update customer if provided
+        if (dto.getCustomer_id() != 0) { 
+            Customer customer = customerRepository.findById(dto.getCustomer_id())
+                    .orElseThrow(() -> new CustomerNotFoundException(
+                            "Corresponding customer could not be found"));
+            appointment.setCustomer(customer);
+        }
+
+        // Update nail tech if provided
+        if (dto.getTech_id() != 0) {
+            NailTech tech = nailTechRepository.findById(dto.getTech_id())
+                    .orElseThrow(() -> new NailTechNotFoundException(
+                            "Corresponding nail tech could not be found"));
+            appointment.setNailTech(tech);
+        }
+
+        // Update service if provided
+        if (dto.getService_id() != 0) {
+            ServiceType service = serviceTypeRepository.findById(dto.getService_id())
+                    .orElseThrow(() -> new ServiceTypeNotFoundException(
+                            "Corresponding service could not be found"));
+            appointment.setService(service);
+        }
+
+        // Update status if provided
+        if (dto.getApptStatus() != null) {
+            appointment.setStatus(dto.getApptStatus());
+        }
+
         Appointment saved = appointmentRepository.save(appointment);
         return mapToDto(saved);
     }
 
     @Override
     public void deleteAppointmentById(int id) {
-        appointmentRepository.deleteById(id);
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow(()
+                -> new AppointmentNotFoundException("Appointment could not be deleted"));
+        appointmentRepository.delete(appointment);
     }
 
     @Override
