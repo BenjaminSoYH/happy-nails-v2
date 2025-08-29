@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ratamigo.happynails.dto.ServiceTypeDto;
+import org.ratamigo.happynails.dto.ServiceTypeGetAllResponse;
 import org.ratamigo.happynails.exceptions.ServiceTypeNotFoundException;
 import org.ratamigo.happynails.model.ServiceType;
 import org.ratamigo.happynails.repository.ServiceTypeRepository;
 import org.ratamigo.happynails.service.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 // TODO: only update fields that are non-null in the incoming DTO.
@@ -62,9 +66,21 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
     }
 
     @Override
-    public List<ServiceTypeDto> getAllServices() {
-        List<ServiceType> serviceTypes = serviceTypeRepo.findAll();
-        return serviceTypes.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
+    public ServiceTypeGetAllResponse getAllServices(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<ServiceType> serviceTypes = serviceTypeRepo.findAll(pageable);
+        List<ServiceType> listOfServiceTypes = serviceTypes.getContent();
+        List<ServiceTypeDto> content = listOfServiceTypes.stream().map(
+                s -> mapToDto(s)).collect(Collectors.toList());
+        ServiceTypeGetAllResponse serviceTypeResponse = new ServiceTypeGetAllResponse();
+        serviceTypeResponse.setContent(content);
+        serviceTypeResponse.setPageNo(serviceTypes.getNumber());
+        serviceTypeResponse.setPageSize(serviceTypes.getSize());
+        serviceTypeResponse.setTotalElements(serviceTypes.getTotalElements());
+        serviceTypeResponse.setTotalPages(serviceTypes.getTotalPages());
+        serviceTypeResponse.setLast(serviceTypes.isLast());
+
+        return serviceTypeResponse;
     }
 
     @Override

@@ -1,11 +1,11 @@
 package org.ratamigo.happynails.appointments.controller;
 import org.ratamigo.happynails.appointments.dto.AppointmentDTO;
+import org.ratamigo.happynails.appointments.dto.AppointmentGetAllResponse;
 import org.ratamigo.happynails.appointments.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -18,31 +18,38 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AppointmentDTO>> getAppointments(){
-        List<AppointmentDTO> appointments = appointmentService.getAppointments();
-        return ResponseEntity.ok(appointments);
+    public ResponseEntity<AppointmentGetAllResponse> getAppointments(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+        AppointmentGetAllResponse appointments = appointmentService.getAppointments(pageNo, pageSize);
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AppointmentDTO> getAppointmentById(@PathVariable int id){
+    public ResponseEntity<AppointmentDTO> getAppointmentById(@PathVariable("id") int id){
         return ResponseEntity.ok(appointmentService.getAppointmentById(id));
     }
 
     @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO appointmentDto){
-        return ResponseEntity.ok(appointmentService.createAppointment(appointmentDto));
+        return new ResponseEntity<>(appointmentService.createAppointment(appointmentDto),
+                                    HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AppointmentDTO> updateAppointment(@PathVariable int id, @RequestBody AppointmentDTO appointmentDto){
-        return ResponseEntity.ok(appointmentService.updateAppointment(id, appointmentDto));
+    @PutMapping("/{id}/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<AppointmentDTO> updateAppointment(
+                @PathVariable("id") int id, 
+                @RequestBody AppointmentDTO appointmentDto){
+        return new ResponseEntity<>(appointmentService.updateAppointment(id, appointmentDto),
+                                    HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAppointment(@PathVariable int id){
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<String> deleteAppointment(@PathVariable("id") int id){
         appointmentService.deleteAppointmentById(id);
-        return ResponseEntity.ok("Appointment deleted!");
+        return new ResponseEntity<>("Appointment deleted", HttpStatus.OK);
     }
-
-
 }

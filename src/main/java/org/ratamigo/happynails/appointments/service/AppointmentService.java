@@ -1,12 +1,13 @@
 package org.ratamigo.happynails.appointments.service;
 
 import org.ratamigo.happynails.appointments.dto.AppointmentDTO;
+import org.ratamigo.happynails.appointments.dto.AppointmentGetAllResponse;
 
 import java.util.List;
 
 public interface AppointmentService {
     // Get all
-    List<AppointmentDTO> getAppointments();
+    AppointmentGetAllResponse getAppointments(int pageNo, int pageSize);
     // Get detail
     AppointmentDTO getAppointmentById(int id);
     // Create

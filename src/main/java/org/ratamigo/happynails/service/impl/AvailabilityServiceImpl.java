@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ratamigo.happynails.dto.AvailabilityDto;
+import org.ratamigo.happynails.dto.AvailabilityGetAllResponse;
 import org.ratamigo.happynails.exceptions.AvailabilityNotFoundException;
 import org.ratamigo.happynails.exceptions.NailTechNotFoundException;
 import org.ratamigo.happynails.model.Availability;
@@ -13,6 +14,9 @@ import org.ratamigo.happynails.repository.AvailabilityRepository;
 import org.ratamigo.happynails.repository.NailTechRepository;
 import org.ratamigo.happynails.service.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,13 +62,25 @@ public class AvailabilityServiceImpl implements AvailabilityService{
 		Availability availability = mapToEntity(availabilityDto, nailTech);
         Availability newAvailability = availabilityRepo.save(availability);
         AvailabilityDto availabilityResponse = mapToDto(newAvailability);
-    return availabilityResponse;
+        return availabilityResponse;
     }
 
     @Override
-    public List<AvailabilityDto> getAllAvailabilities() {
-	List<Availability> availabilities = availabilityRepo.findAll();
-        return availabilities.stream().map(a -> mapToDto(a)).collect(Collectors.toList());
+    public AvailabilityGetAllResponse getAllAvailabilities(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+	    Page<Availability> availabilities = availabilityRepo.findAll(pageable);
+        List<Availability> listOfAvailabilities = availabilities.getContent();
+        List<AvailabilityDto> content = listOfAvailabilities.stream().map(
+                a -> mapToDto(a)).collect(Collectors.toList());
+        AvailabilityGetAllResponse availabilityResponse = new AvailabilityGetAllResponse();
+        availabilityResponse.setContent(content);
+        availabilityResponse.setPageNo(availabilities.getNumber());
+        availabilityResponse.setPageSize(availabilities.getSize());
+        availabilityResponse.setTotalElements(availabilities.getTotalElements());
+        availabilityResponse.setTotalPages(availabilities.getTotalPages());
+        availabilityResponse.setLast(availabilities.isLast());
+
+        return availabilityResponse;
     }
 
     @Override
@@ -79,7 +95,7 @@ public class AvailabilityServiceImpl implements AvailabilityService{
 	Availability availability = availabilityRepo.findById(id).orElseThrow(()
                 -> new AvailabilityNotFoundException("Availability could not be updated"));
         NailTech nailTech = techRepo.findById(availabilityDto.getNailTechId()).orElseThrow(()
-                -> new NailTechNotFoundException("Corresponding nail tech could not be found"));;
+                -> new NailTechNotFoundException("Corresponding nail tech could not be found"));
         availability.getTimeSlot().setStartTime(availabilityDto.getStartTime());
         availability.getTimeSlot().setEndTime(availabilityDto.getEndTime());
         availability.setNailTech(nailTech);
