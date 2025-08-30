@@ -2,7 +2,6 @@ package org.ratamigo.happynails.exceptions;
 
 import java.util.Date;
 
-import org.ratamigo.happynails.appointments.exceptions.AppointmentNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
