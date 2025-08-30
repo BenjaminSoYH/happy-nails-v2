@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-// TODO: REFACTOR SO WHoLE BACKEND CODE LOOKS ORGANIZED (fit appointments with the rest of the entities)
 // ENSURE ALL HTTP CODES ARE CORRECT. WE ARE CONFUSING CREATED VS OK. ALSO PUT SHOULD BE OK.
 // CHECK HTTP CODES AGAIN EVERYTHING EVERYTHING 
 // add the jsonbackreference shi wherever needed everywhere!!!!!!!!

@@ -32,14 +32,12 @@ public class AppointmentController {
     }
 
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO appointmentDto){
         return new ResponseEntity<>(appointmentService.createAppointment(appointmentDto),
-                                    HttpStatus.OK);
+                                    HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/update")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AppointmentDTO> updateAppointment(
                 @PathVariable("id") int id, 
                 @RequestBody AppointmentDTO appointmentDto){

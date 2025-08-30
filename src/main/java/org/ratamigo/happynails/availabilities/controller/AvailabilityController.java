@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -44,15 +43,13 @@ public class AvailabilityController {
     }
 
     @PostMapping("availabilities/create")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AvailabilityDto> createAvailability(
             @RequestBody AvailabilityDto availabilityDto) {
         return new ResponseEntity<>(availabilityService.createAvailability(availabilityDto),
-                                    HttpStatus.OK);
+                                    HttpStatus.CREATED);
     }
 
     @PutMapping("availabilities/{id}/update")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AvailabilityDto> updateAvailability(
             @RequestBody AvailabilityDto availabilityDto, 
             @PathVariable("id") int availabilityId) {
