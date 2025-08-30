@@ -15,6 +15,7 @@ import org.ratamigo.happynails.nailtechs.model.NailTech;
 import org.ratamigo.happynails.nailtechs.repository.NailTechRepository;
 import org.ratamigo.happynails.servicetypes.model.ServiceType;
 import org.ratamigo.happynails.servicetypes.repository.ServiceTypeRepository;
+import org.ratamigo.happynails.shared.TimeSlot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +45,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         // Create new DTO
         AppointmentDTO dto = new AppointmentDTO();
         dto.setId(appointment.getId());
-        dto.setTimeSlot(appointment.getTimeSlot());
+
+        // Time slot
+        TimeSlot timeslot = appointment.getTimeSlot();
+        dto.setStartTime(timeslot.getStartTime()); // Get the start time from timeSlot
+        dto.setEndTime(timeslot.getEndTime()); // Get the end time from timeSlot
 
         // Customer information
         dto.setCustomer_id(appointment.getCustomer().getId());
@@ -58,17 +63,31 @@ public class AppointmentServiceImpl implements AppointmentService {
         dto.setService_id(appointment.getService().getId());
         dto.setService_name(appointment.getService().getName());
 
+        // Appointment status
         dto.setApptStatus(appointment.getStatus());
         return dto;
     }
 
     public Appointment mapToEntity(AppointmentDTO dto){
-        // Create new DTO
+        // Create new entity
         Appointment appointment = new Appointment();
-        appointment.setTimeSlot(dto.getTimeSlot());
+
+        // Time slot
+        TimeSlot timeSlot = new TimeSlot();
+        timeSlot.setStartTime(dto.getStartTime());
+        timeSlot.setEndTime(dto.getEndTime());
+        appointment.setTimeSlot(timeSlot);
+
+        // Customer information
         appointment.setCustomer(customerRepository.findById(dto.getCustomer_id()).orElseThrow());
+
+        // Nail tech information
         appointment.setNailTech(nailTechRepository.findById(dto.getTech_id()).orElseThrow());
+
+        // Service information
         appointment.setService(serviceTypeRepository.findById(dto.getService_id()).orElseThrow());
+
+        // Appointment status
         appointment.setStatus(dto.getApptStatus());
         return appointment;
     }
@@ -123,8 +142,9 @@ public class AppointmentServiceImpl implements AppointmentService {
                     -> new AppointmentNotFoundException("Appointment could not be updated"));
         
         // Update timeSlot if provided
-        if (dto.getTimeSlot() != null) {
-            appointment.setTimeSlot(dto.getTimeSlot());
+        if (dto.getStartTime() != null && dto.getEndTime() != null) {
+            TimeSlot timeSlot = new TimeSlot(dto.getStartTime(), dto.getEndTime());
+            appointment.setTimeSlot(timeSlot);
         }
 
         // Update customer if provided
