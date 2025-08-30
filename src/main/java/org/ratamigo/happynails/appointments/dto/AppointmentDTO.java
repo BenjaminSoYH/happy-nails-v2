@@ -4,10 +4,14 @@ import lombok.Data;
 import org.ratamigo.happynails.appointments.model.Appointment;
 import org.ratamigo.happynails.shared.TimeSlot;
 
+import java.time.LocalDateTime;
+
 @Data
 public class AppointmentDTO {
     private int id;
-    private TimeSlot timeSlot;
+
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
     // Customer information
     private int customer_id;

@@ -28,7 +28,6 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // Appointment ID
     private int id;
 
     @Embedded
@@ -59,7 +58,7 @@ public class Appointment {
         RESCHEDULED     // Appointment was moved to a new time
     }
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // Store the enum as a string
     @Column(name = "ApptStatus", nullable = false)
     private ApptStatus status;
 }
