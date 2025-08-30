@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,13 +38,11 @@ public class NailTechController {
     }
 
     @PostMapping("nailtechs/create")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<NailTechDto> createTech(@RequestBody NailTechDto nailTechDto) {
         return new ResponseEntity<>(nailTechService.createNailTech(nailTechDto), HttpStatus.CREATED);
     }
 
     @PutMapping("nailtechs/{id}/update")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<NailTechDto> updateTech(@RequestBody NailTechDto nailTechDto, 
                                                   @PathVariable("id") int techId) {
         return new ResponseEntity<>(nailTechService.updateNailTech(nailTechDto, techId), 
