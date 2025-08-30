@@ -3,6 +3,8 @@ package org.ratamigo.happynails.availabilities.model;
     import org.ratamigo.happynails.nailtechs.model.NailTech;
 import org.ratamigo.happynails.shared.TimeSlot;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 //availabilityID (PK)
 // dateTime
 // techId(FK) - (cascade delete null)
@@ -28,7 +30,7 @@ public class Availability {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tech_id")
+    @JsonBackReference(value="tech-availabilities")
     private NailTech nailTech;
-
 }
 

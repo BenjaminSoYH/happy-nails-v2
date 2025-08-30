@@ -31,6 +31,7 @@ public class NailTech {
     private List<Appointment> appointments = new ArrayList<>();
 
     @OneToMany(mappedBy = "nailTech", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="tech-availabilities")
     private List<Availability> availabilities; //TODO: Add all of this stuff everywhere
 
 }

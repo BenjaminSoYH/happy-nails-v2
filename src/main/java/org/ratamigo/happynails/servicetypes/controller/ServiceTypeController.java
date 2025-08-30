@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,7 +32,8 @@ public class ServiceTypeController {
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ) {
-        return new ResponseEntity<>(serviceTypeService.getAllServices(pageNo, pageSize), HttpStatus.OK);
+        return new ResponseEntity<>(serviceTypeService.getAllServices(pageNo, pageSize), 
+                HttpStatus.OK);
     }
 
     @GetMapping("services/{id}")
@@ -42,17 +42,17 @@ public class ServiceTypeController {
     }
 
     @PostMapping("services/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ServiceTypeDto> createService(@RequestBody ServiceTypeDto serviceTypeDto) {
-        return new ResponseEntity<>(serviceTypeService.createServiceType(serviceTypeDto), HttpStatus.CREATED);
+    public ResponseEntity<ServiceTypeDto> createService(
+                @RequestBody ServiceTypeDto serviceTypeDto) {
+        return new ResponseEntity<>(serviceTypeService.createServiceType(serviceTypeDto), 
+                HttpStatus.CREATED);
     }
 
-    // start working on update. Start on ServiceTypeService.java add the method, then implement in the impl, then controller
     @PutMapping("services/{id}/update")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ServiceTypeDto> updateService(@PathVariable("id") int serviceId, 
                                                      @RequestBody ServiceTypeDto serviceTypeDto) {
-        return new ResponseEntity<>(serviceTypeService.updateServiceType(serviceTypeDto, serviceId), HttpStatus.OK);
+        return new ResponseEntity<>(serviceTypeService.updateServiceType
+                (serviceTypeDto, serviceId), HttpStatus.OK);
     }
 
     @DeleteMapping("services/{id}/delete") 
