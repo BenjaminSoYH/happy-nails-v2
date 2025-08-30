@@ -14,10 +14,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.ratamigo.happynails.model.Customer;
-import org.ratamigo.happynails.model.NailTech;
-import org.ratamigo.happynails.model.ServiceType;
-import org.ratamigo.happynails.model.TimeSlot;
+
+import org.ratamigo.happynails.customers.model.Customer;
+import org.ratamigo.happynails.nailtechs.model.NailTech;
+import org.ratamigo.happynails.servicetypes.model.ServiceType;
+import org.ratamigo.happynails.shared.TimeSlot;
 
 @Entity
 @Data
