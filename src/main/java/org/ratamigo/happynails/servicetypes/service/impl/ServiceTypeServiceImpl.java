@@ -44,6 +44,7 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
         serviceTypeDto.setDuration(serviceType.getDuration());
         serviceTypeDto.setId(serviceType.getId());
         serviceTypeDto.setName(serviceType.getName());
+        serviceTypeDto.setPrice(serviceType.getPrice());
 
         return serviceTypeDto;
     }
@@ -53,6 +54,7 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
         serviceType.setDescription(serviceTypeDto.getDescription());
         serviceType.setDuration(serviceTypeDto.getDuration());
         serviceType.setName(serviceTypeDto.getName());
+        serviceType.setPrice(serviceTypeDto.getPrice());
 
         return serviceType;
     }
@@ -100,6 +102,9 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
         }
         if (serviceTypeDto.getName() != null) {
             serviceType.setName(serviceTypeDto.getName());
+        }
+        if (serviceTypeDto.getPrice() != null) {
+            serviceType.setPrice(serviceTypeDto.getPrice());
         }
         serviceType.setDuration(serviceTypeDto.getDuration());
 
