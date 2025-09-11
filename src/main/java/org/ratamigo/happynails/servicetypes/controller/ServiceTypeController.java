@@ -64,7 +64,8 @@ public class ServiceTypeController {
     }
 
     @GetMapping("nailtechs/{nailTechId}/services")
-    public ResponseEntity<List<ServiceTypeDto>> getServicesByNailTechId(@PathVariable("nailTechId") int nailTechId) {
+    public ResponseEntity<List<ServiceTypeDto>> getServicesByNailTechId(
+                @PathVariable("nailTechId") int nailTechId) {
         return ResponseEntity.ok(serviceTypeService.getServicesByNailTechId(nailTechId));
     }
 }
