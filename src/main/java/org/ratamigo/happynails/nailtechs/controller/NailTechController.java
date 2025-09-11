@@ -71,4 +71,10 @@ public class NailTechController {
         nailTechService.removeServiceFromNailTech(techId, serviceId);
         return new ResponseEntity<>("Service removed from nail tech", HttpStatus.OK);
     }
+
+    @GetMapping("services/{serviceId}/nailtechs")
+    public ResponseEntity<List<NailTechDto>> getNailTechsByServiceId(
+            @PathVariable("serviceId") int serviceId) {
+        return ResponseEntity.ok(nailTechService.getNailTechsByServiceId(serviceId));
+    }
 }

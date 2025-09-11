@@ -114,4 +114,13 @@ public class NailTechServiceImpl implements NailTechService {
         nailTech.getServices().removeIf(s -> s.getId() == serviceId);
         techRepo.save(nailTech);
     }
+
+    @Override
+    public List<NailTechDto> getNailTechsByServiceId(int serviceId) {
+        List<NailTech> nailTechs = techRepo.findByServicesId(serviceId);
+        if (nailTechs.isEmpty()) {
+                throw new NailTechNotFoundException("No nail techs found for this service");
+        }
+        return nailTechs.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
+    }
 }
