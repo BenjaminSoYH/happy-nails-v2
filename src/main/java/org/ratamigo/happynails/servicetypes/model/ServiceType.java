@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.ratamigo.happynails.appointments.model.Appointment;
+import org.ratamigo.happynails.nailtechs.model.NailTech;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,4 +32,7 @@ public class ServiceType {
     @OneToMany(mappedBy="service", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference(value="service-appointments")
     private List<Appointment> appointments = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "services")
+    private List<NailTech> nailTechs = new ArrayList<>();
 }

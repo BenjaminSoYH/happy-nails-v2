@@ -55,4 +55,20 @@ public class NailTechController {
         return new ResponseEntity<>("Nail Tech deleted", HttpStatus.OK);
     }
 
+    @PostMapping("nailtechs/{techId}/services/{serviceId}/create")
+    public ResponseEntity<String> assignServiceToNailTech(
+            @PathVariable("techId") int techId,
+            @PathVariable("serviceId") int serviceId) {
+        nailTechService.assignServiceToNailTech(techId, serviceId);
+        return new ResponseEntity<>("Service assigned to nail tech", HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("nailtechs/{techId}/services/{serviceId}/delete")
+    public ResponseEntity<String> removeServiceFromNailTech(
+            @PathVariable("techId") int techId,
+            @PathVariable("serviceId") int serviceId) {
+        nailTechService.removeServiceFromNailTech(techId, serviceId);
+        return new ResponseEntity<>("Service removed from nail tech", HttpStatus.OK);
+    }
 }

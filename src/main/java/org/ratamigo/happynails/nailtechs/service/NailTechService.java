@@ -11,4 +11,6 @@ public interface NailTechService {
     NailTechDto getNailTechById(int id);
     NailTechDto updateNailTech(NailTechDto nailTechDto, int id);
     void deleteNailTech(int id);
+    void assignServiceToNailTech(int techId, int serviceId);
+    void removeServiceFromNailTech(int techId, int serviceId);
 }

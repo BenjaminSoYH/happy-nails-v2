@@ -120,4 +120,13 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
         
         serviceTypeRepo.delete(serviceType);
     }
+
+    @Override
+    public List<ServiceTypeDto> getServicesByNailTechId(int nailTechId) {
+        List<ServiceType> services = serviceTypeRepo.findByNailTechsId(nailTechId);
+        if (services.isEmpty()) {
+                throw new ServiceTypeNotFoundException("No services found for this nail tech");
+        }
+        return services.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
+    }
 }
