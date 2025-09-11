@@ -1,5 +1,7 @@
 package org.ratamigo.happynails.servicetypes.controller;
 
+import java.util.List;
+
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeDto;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeGetAllResponse;
 import org.ratamigo.happynails.servicetypes.service.ServiceTypeService;
@@ -59,5 +61,10 @@ public class ServiceTypeController {
     public ResponseEntity<String> deleteService(@PathVariable("id") int serviceId) {
         serviceTypeService.deleteServiceType(serviceId);
         return new ResponseEntity<>("Service deleted", HttpStatus.OK);
+    }
+
+    @GetMapping("nailtechs/{nailTechId}/services")
+    public ResponseEntity<List<ServiceTypeDto>> getServicesByNailTechId(@PathVariable("nailTechId") int nailTechId) {
+        return ResponseEntity.ok(serviceTypeService.getServicesByNailTechId(nailTechId));
     }
 }
