@@ -50,7 +50,7 @@ const TimeSlots = () => {
                     <h3>
                         {period}
                     </h3>
-                    <div className="row col-4">
+                    <div className="row">
                         {slots.map((s: TimeSlot, index: number) => (
                             <div className = "col-3 mb-3" key ={index}>
                                 <button className = "btn btn-outline-secondary ">    {/* w-100 add here */}
