@@ -1,4 +1,6 @@
 package org.ratamigo.happynails.servicetypes.service;
+import java.util.List;
+
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeDto;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeGetAllResponse;
 
@@ -12,4 +14,6 @@ public interface ServiceTypeService {
     ServiceTypeDto updateServiceType(ServiceTypeDto serviceTypeDto, int id);
 
     void deleteServiceType(int id);
+
+    List<ServiceTypeDto> getServicesByNailTechId(int nailTechId);
 }

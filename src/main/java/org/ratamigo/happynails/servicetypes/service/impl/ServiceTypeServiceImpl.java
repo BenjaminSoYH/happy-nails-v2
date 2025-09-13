@@ -44,6 +44,7 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
         serviceTypeDto.setDuration(serviceType.getDuration());
         serviceTypeDto.setId(serviceType.getId());
         serviceTypeDto.setName(serviceType.getName());
+        serviceTypeDto.setPrice(serviceType.getPrice());
 
         return serviceTypeDto;
     }
@@ -53,6 +54,7 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
         serviceType.setDescription(serviceTypeDto.getDescription());
         serviceType.setDuration(serviceTypeDto.getDuration());
         serviceType.setName(serviceTypeDto.getName());
+        serviceType.setPrice(serviceTypeDto.getPrice());
 
         return serviceType;
     }
@@ -101,6 +103,9 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
         if (serviceTypeDto.getName() != null) {
             serviceType.setName(serviceTypeDto.getName());
         }
+        if (serviceTypeDto.getPrice() != null) {
+            serviceType.setPrice(serviceTypeDto.getPrice());
+        }
         serviceType.setDuration(serviceTypeDto.getDuration());
 
         ServiceType updatedServiceType = serviceTypeRepo.save(serviceType);
@@ -114,5 +119,14 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
                 -> new ServiceTypeNotFoundException("Service could not be deleted"));
         
         serviceTypeRepo.delete(serviceType);
+    }
+
+    @Override
+    public List<ServiceTypeDto> getServicesByNailTechId(int nailTechId) {
+        List<ServiceType> services = serviceTypeRepo.findByNailTechsId(nailTechId);
+        if (services.isEmpty()) {
+                throw new ServiceTypeNotFoundException("No services found for this nail tech");
+        }
+        return services.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
     }
 }

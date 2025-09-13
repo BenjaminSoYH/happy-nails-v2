@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.ratamigo.happynails.appointments.model.Appointment;
 import org.ratamigo.happynails.availabilities.model.Availability;
+import org.ratamigo.happynails.servicetypes.model.ServiceType;
 
 @Entity
 @Data
@@ -33,5 +34,14 @@ public class NailTech {
     @OneToMany(mappedBy = "nailTech", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="tech-availabilities")
     private List<Availability> availabilities; //TODO: Add all of this stuff everywhere
+
+    //many to many relationship
+    @ManyToMany
+    @JoinTable(
+        name = "nailtech_service",
+        joinColumns = @JoinColumn(name = "nailtech_id"),
+        inverseJoinColumns = @JoinColumn(name = "service_id")
+    )
+    private List<ServiceType> services = new ArrayList<>();
 
 }
