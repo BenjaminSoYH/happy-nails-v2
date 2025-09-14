@@ -11,13 +11,13 @@ const BookCalendar = () => {
 
     return (
         <>
-            <div className="row">
+            <div className="row ">
                 
-                <div className="col-lg-5 col-md-12">
+                <div className="col-lg-4 col-md-12 offset-lg-2">
                     <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
                     <TimeSlots selectedDate={selectedDate} />
                 </div>
-                <div className="col-lg-7 col-md-12 d-flex justify-content-center mt-lg-5 mt-3">
+                <div className="col-lg-3 col-md-12 mt-lg-4 mt-3">
                     <AppointmentSummary/>
                 </div>
                 
