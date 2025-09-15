@@ -23,6 +23,8 @@ public class NailTech {
     private int id;
 
     private String name;
+    private String description;
+
     private String email;
     private String phone;
 
