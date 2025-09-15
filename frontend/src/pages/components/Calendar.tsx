@@ -13,13 +13,13 @@ const Calendar = ({ selectedDate, setSelectedDate }: CalendarProps) => {
     return (
         <>
             <div className="m-3">
-                <h1 className="mb-3">
+                <h2 className="mb-3">
                     {selectedDate.toLocaleDateString("en-US", {
                         weekday:"long",
                         month: "long",
                         day: "numeric"
                     })}
-                </h1>
+                </h2>
                 <div className="d-flex justify-content-center">
                     <DatePicker
                         selected={selectedDate}

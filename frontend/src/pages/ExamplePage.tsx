@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ExampleService from '../services/ExampleService';
-import AppointmentSummary from "./TimeSlots";
 
 const ExamplePage: React.FC = () => {
     // const [examples, setExamples] = useState<Record<string, string>>({});
@@ -22,7 +21,7 @@ const ExamplePage: React.FC = () => {
 
     return (
         <div>
-            <AppointmentSummary></AppointmentSummary>
+            
         </div>
     );
 };

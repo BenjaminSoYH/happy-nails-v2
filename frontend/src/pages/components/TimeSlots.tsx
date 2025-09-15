@@ -48,25 +48,40 @@ const TimeSlots = ({selectedDate}: TimeSlotsProps) => {
 
     const groups = groupSlotsByTimePeriod(filteredSlots);
 
+    const noSlotsAvailable = Object.values(groups).every(
+        (group) => group.length === 0
+    );
+
+
     return (
         <>
-            {Object.entries(groups).map(([period, slots]) => (
-                <div key={period} className="m-3">
-                    <h3>
-                        {period}
-                    </h3>
-                    <div className="row">
-                        {slots.map((s: TimeSlot, index: number) => (
-                            <div className = "col-6 col-md-4 col-lg-3 mb-3" key ={index}>
-                                <button className = "btn btn-outline-secondary "> 
-                                    {new Date(s.time).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}
-                                </button> 
-                            </div>
-                        ))}
-                    </div>
+            {noSlotsAvailable ? (
+                <div className="mx-4">
+                    <p className="fst-italic">
+                        No availability for this date 
+                    </p>
                 </div>
-                
-            ))}
+            ) : (
+                Object.entries(groups).map(([period, slots]) => (
+                    slots.length > 0 && (
+                        <div key={period} className="m-3">
+                        <h3>
+                            {period}
+                        </h3>
+                        <div className="row">
+                            {slots.map((s: TimeSlot, index: number) => (
+                                <div className = "col-6 col-md-4 col-lg-3 mb-3" key ={index}>
+                                    <button className = "btn btn-outline-secondary w-100"> 
+                                        {new Date(s.time).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}
+                                    </button> 
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    )
+                ))
+            )}
+            
         </>
         
     )
