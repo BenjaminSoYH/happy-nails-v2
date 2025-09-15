@@ -1,6 +1,7 @@
 package org.ratamigo.happynails.servicetypes.service;
 import java.util.List;
 
+import org.ratamigo.happynails.nailtechs.dto.NailTechDto;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeDto;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeGetAllResponse;
 

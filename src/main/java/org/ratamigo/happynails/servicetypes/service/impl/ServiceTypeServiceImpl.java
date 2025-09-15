@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ratamigo.happynails.exceptions.ServiceTypeNotFoundException;
+import org.ratamigo.happynails.nailtechs.dto.NailTechDto;
 import org.ratamigo.happynails.nailtechs.model.NailTech;
+import org.ratamigo.happynails.nailtechs.repository.NailTechRepository;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeDto;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeGetAllResponse;
 import org.ratamigo.happynails.servicetypes.model.ServiceType;

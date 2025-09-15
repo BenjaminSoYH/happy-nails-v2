@@ -123,4 +123,6 @@ public class NailTechServiceImpl implements NailTechService {
         }
         return nailTechs.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
     }
+
+
 }

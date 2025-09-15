@@ -10,7 +10,6 @@ const AppointmentSummary = ({ services }: { services: Service[] }) => {
     const[duration, setDuration] = useState(0);
 
     useEffect(() => {
-
         // Everytime chosenServices is updated...
         // Update serviceList
         setServiceList(services);
