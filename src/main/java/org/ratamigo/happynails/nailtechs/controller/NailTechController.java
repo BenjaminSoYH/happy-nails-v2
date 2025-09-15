@@ -61,7 +61,6 @@ public class NailTechController {
             @PathVariable("serviceId") int serviceId) {
         nailTechService.assignServiceToNailTech(techId, serviceId);
         return new ResponseEntity<>("Service assigned to nail tech", HttpStatus.OK);
-
     }
 
     @DeleteMapping("nailtechs/{techId}/services/{serviceId}/delete")

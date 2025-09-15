@@ -35,7 +35,7 @@ public class NailTech {
     @JsonManagedReference(value="tech-availabilities")
     private List<Availability> availabilities; //TODO: Add all of this stuff everywhere
 
-    //many to many relationship
+    // Many to many relationship
     @ManyToMany
     @JoinTable(
         name = "nailtech_service",

@@ -33,6 +33,9 @@ public class ServiceType {
     @JsonManagedReference(value="service-appointments")
     private List<Appointment> appointments = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "services")
+
+    // If serviceType is deleted, then the link that is created in the many to many relationship table
+    // should be deleted as well.
+    @ManyToMany(mappedBy = "services", fetch = FetchType.LAZY)
     private List<NailTech> nailTechs = new ArrayList<>();
 }

@@ -7,7 +7,6 @@ const ServiceComponent = ({name, description, price} : {name:string, description
       <div className="d-flex justify-content-between align-items-center">
           <div className="d-flex flex-column">
               <h6 className="text-body fw-semibold m-0">{name}</h6>
-              <h6 className="text-secondary m-0">{description}</h6>
           </div>
           <div className="d-flex flex-row gap-2 align-items-center">
               <h6 className="text-body fw-light m-0">
