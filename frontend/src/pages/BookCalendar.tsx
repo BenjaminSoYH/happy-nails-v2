@@ -21,7 +21,7 @@ const BookCalendar = () => {
                     <TimeSlots selectedDate={selectedDate} />
                 </div>
                 <div className="col-lg-3 col-md-12 mt-lg-4 mt-3">
-                    <AppointmentSummary/>
+                    <AppointmentSummary services={services}/>
                 </div>
 
             </div>
