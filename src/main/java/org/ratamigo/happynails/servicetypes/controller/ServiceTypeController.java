@@ -2,7 +2,6 @@ package org.ratamigo.happynails.servicetypes.controller;
 
 import java.util.List;
 
-import org.ratamigo.happynails.nailtechs.dto.NailTechDto;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeDto;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeGetAllResponse;
 import org.ratamigo.happynails.servicetypes.service.ServiceTypeService;
