@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/")
 public class ServiceTypeController {
 
-    private ServiceTypeService serviceTypeService;
+    private final ServiceTypeService serviceTypeService;
 
     @Autowired
     public ServiceTypeController(ServiceTypeService serviceTypeService) {

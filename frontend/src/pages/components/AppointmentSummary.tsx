@@ -9,39 +9,37 @@ const AppointmentSummary = ({ services }: { services: Service[] }) => {
     const[price, setPrice] = useState(0);
     const[duration, setDuration] = useState(0);
 
-    // Define a method that calculates the total price
     useEffect(() => {
-        // Everytime serviceList is updated, recalculate the time and duration.
+
+        // Everytime chosenServices is updated...
+        // Update serviceList
+        setServiceList(services);
+        // Recalculate the price and total duration
         let totalPrice = 0;
         let totalDuration = 0;
-        serviceList.forEach(function(element){totalPrice += element.price; totalDuration += element.duration});
-        // Set total price
+        services.forEach(function(element){totalPrice += element.price; totalDuration += element.duration});
         setPrice(totalPrice);
-        // Set duration
         setDuration(totalDuration);
-    }, [serviceList])
+    }, [services]);
 
     const convertMins = (minutes : number) => {
         const hours = Math.floor(minutes / 60);
         const min = minutes % 60;
-        // If hours is larger than 0
         return hours > 0 ? `${hours} hr ${min} min` : `${minutes} mins`;
     }
 
   return (
-    <div className="d-flex flex-column gap-2">
+    <div className="d-flex flex-column gap-2" style={{width:"30rem"}}>
         <h4 className="text-body fw-bold">Appointment summary</h4>
         <div id="summary-container">
-            {serviceList.length == 0 ? <div className="border border-light p-4 rounded-2">No services added yet</div> :
+            {serviceList.length == 0 ? <div className="border border-secondary-subtle p-3 rounded-2">No services added yet</div> :
                 <div>
-
                     <div className="border border-secondary-subtle p-3 rounded-top-2 d-flex align-items-center justify-content-center">
-                        <div className="d-flex align-items-center justify-content-between">
-
+                        <div className="d-flex align-items-center justify-content-between w-100">
                             <div className="d-flex flex-row gap-3">
-                                <image id="image" className="border border-secondary-subtle rounded-circle" style={{width:"4rem", height:"4rem"}}>
-                                </image>
-                                <div className="d-flex flex-column gap-2">
+                                {/*<div id="image" className="border border-secondary-subtle rounded-circle" style={{width:"4rem", height:"4rem"}}>*/}
+                                {/*</div>*/}
+                                <div className="d-flex flex-column gap-1">
                                     <h5 className="text-body fw-semibold">{serviceList.length} Services</h5>
                                     <h6 className="text-secondary fw-semibold">{`$${price.toFixed(2)}`} <span>·</span> {convertMins(duration)}</h6>
                                 </div>
@@ -50,11 +48,8 @@ const AppointmentSummary = ({ services }: { services: Service[] }) => {
                             <button type="button" className="btn btn-sm rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center" style={{width:"2rem", height:"2rem"}} onClick={() => {setListView(!listView)}}>
                                 {listView ? <ChevronUpIcon></ChevronUpIcon> : <ChevronDownIcon></ChevronDownIcon>}
                             </button>
-
                         </div>
                     </div>
-
-
 
                     <div className="border-bottom border-start border-end border-secondary-subtle p-3 rounded-bottom-2 d-flex flex-column gap-3">
                         {listView && serviceList.map((service) => (
@@ -68,30 +63,7 @@ const AppointmentSummary = ({ services }: { services: Service[] }) => {
                     </div>
                 </div>}
         </div>
-
     </div>
-    <>
-
-      <div className="col-auto">
-        <h3 className="text-secondary">Appointment Summary</h3>
-        {/* we have to account for a list of services, not just 1  */}
-        <div className="card shadow-sm border-0 rounded-3" style={{ width: "100%", maxWidth: "300px" }}>
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <p className="fw-semibold mb-0">Service Type here</p>
-            </div>
-
-            <hr className="my-2" />
-
-            <div className="d-flex justify-content-between align-items-center">
-              <p className="fw-medium mb-0">Service Description here</p>
-              <p className="fw-semibold mb-0">$Price here · duration here</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </>
   )
 }
 

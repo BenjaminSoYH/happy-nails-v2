@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.ratamigo.happynails.exceptions.ServiceTypeNotFoundException;
+import org.ratamigo.happynails.nailtechs.model.NailTech;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeDto;
 import org.ratamigo.happynails.servicetypes.dto.ServiceTypeGetAllResponse;
 import org.ratamigo.happynails.servicetypes.model.ServiceType;
@@ -117,7 +118,14 @@ public class ServiceTypeServiceImpl implements ServiceTypeService{
     public void deleteServiceType(int id) {
         ServiceType serviceType = serviceTypeRepo.findById(id).orElseThrow(() 
                 -> new ServiceTypeNotFoundException("Service could not be deleted"));
-        
+
+        for(NailTech tech : serviceType.getNailTechs()){
+            // For each nail techs that has service, delete the service from the service list
+            // inside the tech model - This tells hibernate to delete the join row in the table.
+            tech.getServices().remove(serviceType);
+        }
+
+        serviceType.getNailTechs().clear();
         serviceTypeRepo.delete(serviceType);
     }
 
