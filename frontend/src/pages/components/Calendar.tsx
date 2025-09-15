@@ -12,14 +12,14 @@ const Calendar = ({ selectedDate, setSelectedDate }: CalendarProps) => {
 
     return (
         <>
-            <div className="m-3">
-                <h2 className="mb-3">
+            <div className="d-flex flex-column gap-2 mt-4" style={{ width: "30rem" }}>
+                <h4 className="text-body fw-bold">
                     {selectedDate.toLocaleDateString("en-US", {
                         weekday:"long",
                         month: "long",
                         day: "numeric"
                     })}
-                </h2>
+                </h4>
                 <div className="d-flex justify-content-center">
                     <DatePicker
                         selected={selectedDate}
@@ -29,7 +29,7 @@ const Calendar = ({ selectedDate, setSelectedDate }: CalendarProps) => {
                     />
                     
                 </div>
-                <p className="d-flex justify-content-center mt-3 mx-3">
+                <p className="text-secondary fst-italic text-center">
                     (Times below are shown in PST)
                 </p>
             </div>
