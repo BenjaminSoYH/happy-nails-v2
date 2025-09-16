@@ -3,5 +3,6 @@ export interface NailTech {
     name: string,
     email: string,
     phone: string,
-    description: string
+    description: string,
+    path: string
 }

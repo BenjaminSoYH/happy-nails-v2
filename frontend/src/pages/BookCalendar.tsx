@@ -9,7 +9,6 @@ const BookCalendar = () => {
     const services = [
         {id: 12, name: "Straight-Razor Shave", description: "", duration: 45, price: 40.00},
         {id: 13, name: "Haircut", description: "", duration: 45, price: 50.00},
-
     ]
 
     return (
