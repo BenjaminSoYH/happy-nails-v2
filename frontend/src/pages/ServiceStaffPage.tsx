@@ -3,7 +3,6 @@ import {useLocation} from "react-router-dom";
 import {Service} from "./interfaces/Service";
 import StaffComponent from "./components/StaffComponent";
 import {NailTech} from "./interfaces/NailTech";
-import ServiceItem from "./components/ServiceItem";
 
 const ServiceStaffPage = () => {
     const location = useLocation();
@@ -32,9 +31,6 @@ const ServiceStaffPage = () => {
     }
 
     // Define a method that adds the service to the main page.
-
-
-
 
   return (
       <div className="d-flex justify-content-center mt-5">

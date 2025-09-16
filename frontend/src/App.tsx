@@ -5,13 +5,14 @@ import AppointmentMainPage from "./pages/AppointmentMainPage";
 import BookCalendar from './pages/BookCalendar';
 import ServiceStaffPage from "./pages/ServiceStaffPage";
 import CustomerCheckout from './pages/CustomerCheckout';
+import StaffPage from "./pages/StaffPage";
 
 function App() {
   return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppointmentMainPage />} />
-          <Route path="/service/:serviceid" element={<ServiceStaffPage/>}/>
+          <Route path="/nailtechs" element={<StaffPage/>}/>
           <Route path="/hello" element={<BookCalendar />} />
           <Route path="/china" element={<CustomerCheckout />} />
         </Routes>

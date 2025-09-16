@@ -21,11 +21,9 @@ const BookCalendar = () => {
                         <TimeSlots selectedDate={selectedDate} />
                     </div>
                     <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-8 mt-3">
-                        <AppointmentSummary services={services}/>
+                        <AppointmentSummary removeService={() => {}} services={services}/>
                     </div>
-
                 </div>
-
             </div>
         </>
 

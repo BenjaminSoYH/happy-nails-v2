@@ -1,9 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Service} from "../interfaces/Service";
-import {useNavigate} from "react-router-dom";
 
 const ServiceItem = ({service, addService}: {service: Service, addService: any}) => {
-    const navigate = useNavigate();
+    const[selected, setSelected] = useState(false);
     const convertMins = (minutes : number) => {
         const hours = Math.floor(minutes / 60);
         const min = minutes % 60;
@@ -11,8 +10,8 @@ const ServiceItem = ({service, addService}: {service: Service, addService: any})
     }
 
     const handleClick = () => {
-        // addService(service);
-        navigate(`/service/${service.id}`, {state: service}); // Navigate to a different page and pass in state.
+        addService(service);
+        setSelected(true);
     }
 
   return (
@@ -21,6 +20,7 @@ const ServiceItem = ({service, addService}: {service: Service, addService: any})
         <h6 className="fw-semibold">{service.name}</h6>
         <h6 className="text-secondary fw-light">{service.description}</h6>
         <h6 className="fw-light">{`$${service.price.toFixed(2)} · ${convertMins(service.duration)}`}</h6>
+        {selected && <h6 className="text-primary">✓ Added!</h6>}
     </div>
   )
 }

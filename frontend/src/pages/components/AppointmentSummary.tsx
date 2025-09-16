@@ -3,7 +3,7 @@ import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import {Service} from '../interfaces/Service'
 import ServiceComponent from "./ServiceComponent";
 
-const AppointmentSummary = ({ services }: { services: Service[] }) => {
+const AppointmentSummary = ({ services, removeService }: { services: Service[], removeService: any }) => {
     const[listView, setListView] = useState(true);
     const[serviceList, setServiceList] = useState<Service[]>(services ?? []);
     const[price, setPrice] = useState(0);
@@ -31,7 +31,7 @@ const AppointmentSummary = ({ services }: { services: Service[] }) => {
     <div className="d-flex flex-column gap-2 w-100" style={{ maxWidth:"30rem" }}>
         <h4 className="text-body fw-bold">Appointment summary</h4>
         <div id="summary-container">
-            {serviceList.length == 0 ? <div className="border border-secondary-subtle p-3 rounded-2">No services added yet</div> :
+            {serviceList.length === 0 ? <div className="border border-secondary-subtle p-3 rounded-2">No services added yet</div> :
                 <div>
                     <div className="border border-secondary-subtle p-3 rounded-top-2 d-flex align-items-center justify-content-center">
                         <div className="d-flex align-items-center justify-content-between w-100">
@@ -54,9 +54,10 @@ const AppointmentSummary = ({ services }: { services: Service[] }) => {
                         {listView && serviceList.map((service) => (
                             <ServiceComponent
                                 key={service.name}
+                                id={service.id}
                                 name={service.name}
-                                description={service.description}
                                 price={service.price}
+                                removeService={removeService}
                             />
                         ))}
                     </div>
