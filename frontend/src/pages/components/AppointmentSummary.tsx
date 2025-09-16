@@ -28,7 +28,7 @@ const AppointmentSummary = ({ services }: { services: Service[] }) => {
     }
 
   return (
-    <div className="d-flex flex-column gap-2" style={{width:"30rem"}}>
+    <div className="d-flex flex-column gap-2 w-100" style={{ maxWidth:"30rem" }}>
         <h4 className="text-body fw-bold">Appointment summary</h4>
         <div id="summary-container">
             {serviceList.length == 0 ? <div className="border border-secondary-subtle p-3 rounded-2">No services added yet</div> :

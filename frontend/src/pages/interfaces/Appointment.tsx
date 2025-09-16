@@ -1,5 +1,3 @@
-
-
 export type ApptStatus =
   | 'PENDING'
   | 'CONFIRMED'

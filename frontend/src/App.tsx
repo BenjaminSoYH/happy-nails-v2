@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Router, Routes} from "react-router-dom";
 import AppointmentMainPage from "./pages/AppointmentMainPage";
 import BookCalendar from './pages/BookCalendar';
 import ServiceStaffPage from "./pages/ServiceStaffPage";
+import CustomerCheckout from './pages/CustomerCheckout';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<AppointmentMainPage />} />
           <Route path="/service/:serviceid" element={<ServiceStaffPage/>}/>
           <Route path="/hello" element={<BookCalendar />} />
+          <Route path="/china" element={<CustomerCheckout />} />
         </Routes>
       </BrowserRouter>
   );

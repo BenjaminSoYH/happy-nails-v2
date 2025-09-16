@@ -74,7 +74,7 @@ const TimeSlots = ({selectedDate}: TimeSlotsProps) => {
 
 
     return (
-        <div className="d-flex flex-column gap-3" style={{ width: "30rem" }}>
+        <div className="d-flex flex-column gap-3 w-100" style={{ maxWidth: "30rem" }}>
             {noSlotsAvailable ? (
                 <div className="mx-4">
                     <p className="border 
