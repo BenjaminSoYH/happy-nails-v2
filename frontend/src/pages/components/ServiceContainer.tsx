@@ -11,7 +11,7 @@ const ServiceContainer = ({services, addService} : {services: Service[], addServ
   return (
     <div>
       {serviceList.map((service, index) => (
-          <div key={service.id} >
+          <div key={service.id}>
             <ServiceItem addService={addService} service={service}></ServiceItem>
             {index < serviceList.length - 1 && <hr></hr>}
           </div>

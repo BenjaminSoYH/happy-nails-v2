@@ -28,6 +28,8 @@ public class NailTech {
     private String email;
     private String phone;
 
+    private String path; // image path (file system or cloud url)
+
     // Map to the nailTech field in appointment
     @OneToMany(mappedBy="nailTech", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference(value="tech-appointments")

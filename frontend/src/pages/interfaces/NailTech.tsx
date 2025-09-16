@@ -4,4 +4,5 @@ export interface NailTech {
     email: string,
     phone: string,
     description: string
+    path: string
 }

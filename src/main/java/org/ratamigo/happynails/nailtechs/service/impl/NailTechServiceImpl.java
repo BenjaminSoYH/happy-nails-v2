@@ -35,6 +35,7 @@ public class NailTechServiceImpl implements NailTechService {
         nailTechDto.setEmail(nailTech.getEmail());
         nailTechDto.setPhone(nailTech.getPhone());
         nailTechDto.setDescription(nailTech.getDescription());
+        nailTechDto.setPath(nailTech.getPath());
 
         return nailTechDto;
     }
@@ -45,6 +46,7 @@ public class NailTechServiceImpl implements NailTechService {
         nailTech.setPhone(nailTechDto.getPhone());
         nailTech.setName(nailTechDto.getName());
         nailTech.setDescription(nailTechDto.getDescription());
+        nailTech.setPath(nailTechDto.getPath());
 
         return nailTech;
     }
@@ -86,6 +88,9 @@ public class NailTechServiceImpl implements NailTechService {
         }
         if(nailTechDto.getDescription() != null) {
             nailTech.setDescription(nailTechDto.getDescription());
+        }
+        if(nailTechDto.getPath() != null) {
+            nailTech.setPath(nailTechDto.getPath());
         }
 
         NailTech updatedNailTech = techRepo.save(nailTech);
