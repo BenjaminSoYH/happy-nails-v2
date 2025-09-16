@@ -2,10 +2,13 @@ import AppointmentSummary from "./components/AppointmentSummary";
 import { Service } from "./interfaces/Service";
 import React, {useEffect, useState} from "react";
 import ServiceContainer from "./components/ServiceContainer";
+import {useLocation} from "react-router-dom";
 
 const AppointmentMainPage: React.FC = () => {
     const[services, setServices] = useState<Service[]>([]);
     const[chosenServices, setChosen] = useState<Service[]>([]);
+    const location = useLocation();
+    const selected = location.state != null; // If there is a state stored in location
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -16,13 +19,18 @@ const AppointmentMainPage: React.FC = () => {
                 const data = await json.content; // Get the content from the JSON
                 setServices(data); // Set the state
                 console.log("Services fetched successfully.")
-
             } catch (e) {
                 console.log("Failed to fetch services.");
             }
         }
         fetchServices();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if(selected){
+            addService(location.state.service);
+        }
+    }, [selected])
 
 
     const addService = (service:Service) => {

@@ -9,4 +9,5 @@ public class NailTechDto {
     private String email;
     private String phone;
     private String description;
+    private String path;
 }

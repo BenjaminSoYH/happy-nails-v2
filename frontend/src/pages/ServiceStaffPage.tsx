@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import {useLocation} from "react-router-dom";
 import {Service} from "./interfaces/Service";
 import StaffComponent from "./components/StaffComponent";
+import {NailTech} from "./interfaces/NailTech";
+import ServiceItem from "./components/ServiceItem";
 
 const ServiceStaffPage = () => {
     const location = useLocation();
@@ -14,7 +16,6 @@ const ServiceStaffPage = () => {
                 const url = `http://localhost:8080/api/services/${service.id}/nailtechs`
                 const response = await fetch(url);
                 const data = await response.json();
-                console.log(data);
                 setNailTechs(data);
                 console.log("Nail techs fetched successfully")
             } catch (e) {
@@ -30,6 +31,10 @@ const ServiceStaffPage = () => {
         return hours > 0 ? `${hours} hr ${min} min` : `${minutes} mins`;
     }
 
+    // Define a method that adds the service to the main page.
+
+
+
 
   return (
       <div className="d-flex justify-content-center mt-5">
@@ -42,12 +47,15 @@ const ServiceStaffPage = () => {
               </div>
 
               <div className="d-flex flex-column gap-2 mt-5">
-                  <h5 className="fw-semibold">Staff</h5>
-                  {nailTechs.map((tech, index) => (<StaffComponent tech={tech}></StaffComponent>))}
+                  <h5 className="fw-semibold">Please select your nail tech!</h5>
+                  {nailTechs.map((tech:NailTech, index) => (
+                      <div key={tech.id}>
+                          <StaffComponent tech={tech} service={service}></StaffComponent>
+                          {index < nailTechs.length - 1 && <hr></hr>}
+                      </div>
+                  ))}
               </div>
           </div>
-
-
       </div>
   )
 }
