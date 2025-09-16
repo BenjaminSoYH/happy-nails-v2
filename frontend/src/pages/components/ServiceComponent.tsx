@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import {PencilIcon} from "@heroicons/react/16/solid";
+import {TrashIcon} from "@heroicons/react/16/solid";
 
-const ServiceComponent = ({name, description, price} : {name:string, description:string, price:number}) => {
+const ServiceComponent = ({name, price, id, removeService} : {name:string, price:number, id:number, removeService:any}) => {
     const[hover, setHover] = useState(false);
   return (
       <div className="d-flex justify-content-between align-items-center">
@@ -12,13 +12,14 @@ const ServiceComponent = ({name, description, price} : {name:string, description
               <h6 className="text-body fw-light m-0">
                   <span>$</span>{price.toFixed(2)}
               </h6>
-                  <PencilIcon style={{width:"1rem",
+                  <TrashIcon style={{width:"1rem",
                       height: "1rem",
                       cursor:"pointer",
-                      color: hover ? "blue" : "black"}}
+                      color: hover ? "red" : "black"}}
                               onMouseEnter={() => {setHover(true)}}
                               onMouseLeave={() => {setHover(false)}}
-                  ></PencilIcon>
+                              onClick={() => removeService(id)}
+                  ></TrashIcon>
           </div>
       </div>
   )
