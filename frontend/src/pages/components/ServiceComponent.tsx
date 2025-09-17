@@ -3,6 +3,7 @@ import {TrashIcon} from "@heroicons/react/16/solid";
 
 const ServiceComponent = ({name, price, id, removeService} : {name:string, price:number, id:number, removeService:any}) => {
     const[hover, setHover] = useState(false);
+
   return (
       <div className="d-flex justify-content-between align-items-center">
           <div className="d-flex flex-column">

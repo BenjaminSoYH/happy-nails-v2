@@ -4,17 +4,17 @@ import {useNavigate} from "react-router-dom";
 import {Service} from "../interfaces/Service";
 
 
-const StaffComponent = ({tech, service}:{tech:NailTech, service: Service}) => {
+const StaffComponent = ({tech}:{tech:NailTech}) => {
     const navigate = useNavigate();
 
     // Define a method that handles the click
-    const handleClick = () => {
-        navigate(`/`, {state: {tech: tech, service: service}});
-    }
+    // const handleClick = () => {
+    //     navigate(`/`, {state: {tech: tech, service: service}});
+    // }
 
   return (
       <div id="staffItem" className="py-3 px-1 text-black d-flex flex-row gap-3
-      align-items-center cursor-pointer" onClick={() => (handleClick())}>
+      align-items-center cursor-pointer" onClick={() => {}}>
           <div id="image" className="border border-secondary-subtle rounded-circle"
                style={{width:"5rem", height:"5rem", backgroundImage: `url('${tech.path}')`,
                    backgroundSize:"cover", backgroundPosition:"center"}}>

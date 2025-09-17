@@ -46,7 +46,7 @@ const ServiceStaffPage = () => {
                   <h5 className="fw-semibold">Please select your nail tech!</h5>
                   {nailTechs.map((tech:NailTech, index) => (
                       <div key={tech.id}>
-                          <StaffComponent tech={tech} service={service}></StaffComponent>
+                          <StaffComponent tech={tech}></StaffComponent>
                           {index < nailTechs.length - 1 && <hr></hr>}
                       </div>
                   ))}

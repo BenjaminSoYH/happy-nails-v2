@@ -135,5 +135,11 @@ public class NailTechServiceImpl implements NailTechService {
         return nailTechs.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<NailTechDto> getNailTechsByServices(List<Integer> serviceIds) {
+        List<NailTech> nailTechs = techRepo.findByServices(serviceIds, serviceIds.size());
+        return nailTechs.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
+    }
+
 
 }
