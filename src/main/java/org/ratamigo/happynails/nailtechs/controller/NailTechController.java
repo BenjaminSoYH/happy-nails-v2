@@ -3,6 +3,7 @@ package org.ratamigo.happynails.nailtechs.controller;
 import java.util.List;
 
 import org.ratamigo.happynails.nailtechs.dto.NailTechDto;
+import org.ratamigo.happynails.nailtechs.dto.StaffServiceRequest;
 import org.ratamigo.happynails.nailtechs.service.NailTechService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,5 +76,10 @@ public class NailTechController {
     public ResponseEntity<List<NailTechDto>> getNailTechsByServiceId(
             @PathVariable("serviceId") int serviceId) {
         return ResponseEntity.ok(nailTechService.getNailTechsByServiceId(serviceId));
+    }
+
+    @PostMapping("services/nailtechs")
+    public ResponseEntity<List<NailTechDto>> getNailTechsByServices(@RequestBody StaffServiceRequest staffServiceRequest) {
+        return ResponseEntity.ok(nailTechService.getNailTechsByServices(staffServiceRequest.getServiceIds()));
     }
 }

@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Service} from "../interfaces/Service";
 
-const ServiceItem = ({service, addService}: {service: Service, addService: any}) => {
-    const[selected, setSelected] = useState(false);
+const ServiceItem = ({service, addService, selected}: {service: Service, addService: any, selected:boolean}) => {
     const convertMins = (minutes : number) => {
         const hours = Math.floor(minutes / 60);
         const min = minutes % 60;
@@ -11,7 +10,6 @@ const ServiceItem = ({service, addService}: {service: Service, addService: any})
 
     const handleClick = () => {
         addService(service);
-        setSelected(true);
     }
 
   return (

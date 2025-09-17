@@ -7,8 +7,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 const AppointmentMainPage: React.FC = () => {
     const[services, setServices] = useState<Service[]>([]);
     const[chosenServices, setChosen] = useState<Service[]>([]);
-    const location = useLocation();
-    const selected = location.state != null; // If there is a state stored in location
+    const[chosenIds, setChosenIds] = useState<number[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,18 +26,12 @@ const AppointmentMainPage: React.FC = () => {
         fetchServices();
     }, []);
 
-    useEffect(() => {
-        if(selected){
-            addService(location.state.service);
-        }
-    }, [selected])
-
-
     const addService = (service:Service) => {
         if(chosenServices.filter(s => s.id === service.id).length > 0){
             alert("Service has already been added!");
         } else {
-            setChosen([...chosenServices, service]);
+            setChosen([...chosenServices, service]); // Update the chosen services
+            setChosenIds([...chosenIds, service.id]);
         }
     }
 
@@ -46,6 +39,8 @@ const AppointmentMainPage: React.FC = () => {
     const removeService = (id: number)=> {
         const services = chosenServices.filter(s => s.id !== id);
         setChosen(services);
+        const ids = chosenIds.filter(val => val !== id);
+        setChosenIds(ids);
     }
 
     // Define onClick method for next
@@ -53,7 +48,7 @@ const AppointmentMainPage: React.FC = () => {
         if(chosenServices.length == 0){
             alert("Please select at least one service to proceed.");
         } else {
-            navigate(`/nailtechs`);
+            navigate(`/nailtechs`, {state: chosenIds});
         }
     }
 
@@ -61,7 +56,7 @@ const AppointmentMainPage: React.FC = () => {
         <div className="d-flex justify-content-center align-items-center mt-5">
             <div className="d-flex flex-row gap-5">
                 <div>
-                    <ServiceContainer services={services} addService={addService}></ServiceContainer>
+                    <ServiceContainer services={services} addService={addService} chosenServices={chosenServices}></ServiceContainer>
                 </div>
 
                 <div className="d-flex flex-column gap-2">
