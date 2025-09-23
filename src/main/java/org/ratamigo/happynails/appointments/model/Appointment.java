@@ -61,6 +61,8 @@ public class Appointment {
     @Enumerated(EnumType.STRING) // Store the enum as a string
     @Column(name = "ApptStatus", nullable = false)
     private ApptStatus status;
+
+    private String notes;
 }
 
 
