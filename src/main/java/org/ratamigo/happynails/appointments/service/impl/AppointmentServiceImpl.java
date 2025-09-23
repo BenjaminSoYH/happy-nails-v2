@@ -64,6 +64,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         // Appointment status
         dto.setApptStatus(appointment.getStatus());
+
+        // Appointmment notes
+        dto.setNotes(appointment.getNotes());
+        
         return dto;
     }
 
@@ -88,6 +92,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         // Appointment status
         appointment.setStatus(dto.getApptStatus());
+
+        // Appointment notes
+        appointment.setNotes(dto.getNotes());
         return appointment;
     }
 
@@ -173,6 +180,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         // Update status if provided
         if (dto.getApptStatus() != null) {
             appointment.setStatus(dto.getApptStatus());
+        }
+
+        if (dto.getNotes() != null) {
+            appointment.setNotes(dto.getNotes());
         }
 
         Appointment saved = appointmentRepository.save(appointment);

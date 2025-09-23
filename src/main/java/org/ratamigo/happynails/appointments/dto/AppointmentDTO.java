@@ -24,4 +24,6 @@ public class AppointmentDTO {
     private String service_name;
 
     private Appointment.ApptStatus apptStatus;
+
+    private String notes;
 }
