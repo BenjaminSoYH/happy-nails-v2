@@ -113,6 +113,40 @@ const ContactInfo = () => {
         if (!ok) return;
 
         // need to add api call
+        // create a new customer first. we don't have all the inputs for api call yet to create a new appt 
+        // (need to pass nailtech, service through all the way to this page).
+        // for now we have status, notes, customer, timeslot. work on passing the timeslot 
+        
+        const createCustomer = async () => {
+            const url = 'http://localhost:8080/api/customers/create';
+            const name = firstName +" " + lastName;
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        phone,
+                        notes,
+                    }),
+                }); 
+
+                if (!response.ok) {
+                    throw new Error("Failed to create customer");
+                }
+
+                const data = await response.json();
+                console.log("Customer created:", data);
+                return data;
+            } catch (error) {
+                console.log("Failed to book appointment");
+            };
+        }
+        createCustomer();
+
         console.log("Submitting appointment", {
             firstName, lastName, email, phone, notes
         });
@@ -164,6 +198,7 @@ const ContactInfo = () => {
                             setLastName(event.target.value)}
                     />
                 </div>
+                {nameError && <div className="text-danger mb-3">{nameError}</div>}
                 
                 
                 <input
@@ -188,7 +223,7 @@ const ContactInfo = () => {
                     }
                 />
             </div>
-            {nameError && <div className="text-danger mb-3">{nameError}</div>}
+            
             <button className="btn btn-primary mt-4 w-100 py-2 fs-5" type="submit">Book Appointment</button>
         </form>
     )
