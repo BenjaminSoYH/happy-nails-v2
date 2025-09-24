@@ -15,9 +15,11 @@ const CustomerCheckout = () => {
                             
                             <div className="col-xxl-5 col-xl-5 col-lg-6 col-md-8 mt-3">
                                 <ContactInfo/>
+                                
                             </div>
                             <div className="col-xxl-2 col-xl-4 col-lg-6 col-md-8 mt-3">
                                 <AppointmentSummary removeService={() => {}} services={services}/>
+                                
                             </div>
                         </div>
                     </div>

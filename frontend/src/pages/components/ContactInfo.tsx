@@ -1,17 +1,20 @@
 
 import { useCallback, useEffect, useState } from 'react';
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 
 
 
 const ContactInfo = () => {
 
-    const [phone, setPhone] = useState<string | undefined>();
-    const [firstName, setFirstName] = useState<string | undefined>();
-    const [lastName, setLastName] = useState<string | undefined>();
-    const [email, setEmail] = useState<string | undefined>();
+    const [phone, setPhone] = useState<string>("");
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [nameError, setNameError] = useState<string>("")
+    const [email, setEmail] = useState<string>("");
     const [emailError, setEmailError] = useState<string | undefined>();
+    const [notes, setNotes] = useState<string>("");
+    const [phoneError, setPhoneError] = useState<string | undefined>();
 
     const InputComponent = useCallback(
         (props: any) => (
@@ -28,8 +31,34 @@ const ContactInfo = () => {
         return regex.test(email);
     }
 
+    const validatePhone = (p: string): boolean => {
+        try {
+            return isValidPhoneNumber(p);
+        } catch {
+            return false;
+        }
+    };
+
     useEffect(() => {
-        if (email === undefined) {
+        if (!phone) {
+            setPhoneError(undefined);
+            return;
+        }
+
+        setPhoneError(undefined);
+
+        const timeout = setTimeout(() => {
+            if (!validatePhone(phone)) {
+                setPhoneError("Invalid phone number");
+            } else {
+                setPhoneError(undefined);
+            }
+        }, 500)
+        return () => clearTimeout(timeout);
+    }, [phone])
+
+    useEffect(() => {
+        if (!email) {
             setEmailError(undefined);
             return;
         } 
@@ -38,7 +67,7 @@ const ContactInfo = () => {
         
         const timeout = setTimeout(() => {
             if (!validateEmail(email)) {
-                setEmailError("Invalid Email");
+                setEmailError("Invalid email");
             } else {
                 setEmailError(undefined);
             }
@@ -47,8 +76,50 @@ const ContactInfo = () => {
         return () => clearTimeout(timeout);
     }, [email])
 
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        let ok = true;
+
+        // require at least one contact method (email or phone)
+        if (!email) {
+            setEmailError("Please provide an email");
+            ok = false;
+        } else if (!validateEmail(email)) {
+            setEmailError("Invalid email");
+            ok = false;
+        } else {
+            setEmailError(undefined);
+        }
+
+        if (!phone) {
+            setPhoneError("Please provide a phone number");
+            ok = false;
+        } else if (!validatePhone(phone)) {
+            setPhoneError("Invalid phone number");
+            ok = false;
+        } else {
+            setPhoneError(undefined);
+        }
+
+        if (!firstName || !lastName) {
+            setNameError("Please enter a first and last name");
+            ok = false;
+        } else {
+            setNameError("");
+            ok = true;
+        }
+
+        if (!ok) return;
+
+        // need to add api call
+        console.log("Submitting appointment", {
+            firstName, lastName, email, phone, notes
+        });
+    };
+
     return (
-        <>
+        <form onSubmit={handleSubmit}>
         
             <h4 className="text-body fw-bold">Contact Info</h4>
             <div className="d-flex flex-column gap-3 w-100" style={{ maxWidth: "40rem" }}>
@@ -56,15 +127,16 @@ const ContactInfo = () => {
                 <div className="input-group input-group-lg w-100">
                     <PhoneInput
                         placeholder="Enter phone number"
-                        value={phone}
-                        onChange={setPhone}
+                        value={phone || ""}   
+                        onChange={(value) => setPhone(value || "")}
                         defaultCountry="US"
                         international
                         countryCallingCodeEditable={false}
                         inputComponent={InputComponent}
-                        className="form-control"
                     />
+                    
                 </div>
+                {phoneError && <div className="text-danger mb-3">{phoneError}</div>}
 
                 
                 <small>
@@ -105,7 +177,20 @@ const ContactInfo = () => {
                 />
                 {emailError && <div className="text-danger mb-3">{emailError}</div>}
             </div>
-        </>
+            <div className="align-items-center mt-4">
+                <h5 className="text-body fw-bold ">Appointment Notes</h5>
+                <textarea
+                    className="form-control"
+                    placeholder="Notes"
+                    value={notes}
+                    onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        setNotes(event.target.value)
+                    }
+                />
+            </div>
+            {nameError && <div className="text-danger mb-3">{nameError}</div>}
+            <button className="btn btn-primary mt-4 w-100 py-2 fs-5" type="submit">Book Appointment</button>
+        </form>
     )
 }
 
